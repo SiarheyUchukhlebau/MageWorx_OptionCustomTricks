@@ -57,6 +57,14 @@ class ProductDataProviderPlugin
         // Set page size for options dynamic rows
         $options['arguments']['data']['config']['pageSize'] = $optionsPageSize;
 
+        // Disable drag-and-drop for the options grid. On large products
+        // (1000+ options) Magento_Ui dynamic-rows initialises a DnD UI
+        // component per row, dominating the initial render budget.
+        // Reordering by mouse drag is not realistic at that scale;
+        // sort_order should be set explicitly. Scoped to the custom-options
+        // grid only (does not affect any other dynamic-rows in admin).
+        $options['arguments']['data']['config']['dndConfig'] = ['enabled' => false];
+
         $record = &$options['children'][$optionContainerName];
 
         if (isset($record['children'])) {
@@ -68,6 +76,8 @@ class ProductDataProviderPlugin
                 }
                 // Set page size for values dynamic rows
                 $option['children']['values']['arguments']['data']['config']['pageSize'] = $valuesPageSize;
+                // Disable DnD for values grid for the same reason as options above.
+                $option['children']['values']['arguments']['data']['config']['dndConfig'] = ['enabled' => false];
             }
         }
 
