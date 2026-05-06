@@ -38,6 +38,15 @@
                     <label>Number of Values per Page</label>
                     <comment>Set the number of option values displayed per page in the admin panel.</comment>
                 </field>
+                <field id="enable_options_dnd" translate="label comment" type="select" sortOrder="20"
+                       showInDefault="1">
+                    <label><![CDATA[Enable Drag-and-Drop Reorder for Custom Options]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[When enabled, you can reorder custom options and their values by dragging rows on the product edit page.
+                    On products with very large option sets (hundreds or thousands), initializing a drag-and-drop UI per row dominates the initial render time;
+                    set this to "No" in that case and use the Sort Order field instead. Default: Yes.]]>
+                    </comment>
+                </field>
             </group>
         </section>
     </system>

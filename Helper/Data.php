@@ -29,6 +29,16 @@ class Data extends AbstractHelper
     public const XML_PATH_VALUES_PAGE_SIZE =
         'mageworx_apo/option_tricks/values_page_size';
 
+    /**
+     * XML path for the flag that enables drag-and-drop reorder UI on the
+     * custom-options grid in the admin product form. Default is enabled to
+     * preserve historical Magento_Ui behaviour; admins are expected to turn
+     * it off on stores with very large option sets, where initialising a
+     * DnD instance per row dominates initial render time.
+     */
+    public const XML_PATH_OPTIONS_DND_ENABLED =
+        'mageworx_apo/option_tricks/enable_options_dnd';
+
     public const DEFAULT_OPTIONS_PAGE_SIZE = 20;
     public const DEFAULT_VALUES_PAGE_SIZE  = 20;
     public const CLEAR_LOCAL_STORAGE_FLAG  = 'mageworx_apo_clear_local_storage';
@@ -79,5 +89,23 @@ class Data extends AbstractHelper
             ScopeInterface::SCOPE_STORE,
             $storeId
         ) ?: self::DEFAULT_VALUES_PAGE_SIZE);
+    }
+
+    /**
+     * Whether the admin custom-options grid should keep its drag-and-drop
+     * reorder UI. Disabling DnD removes a per-row UI component initialisation
+     * that dominates initial render time on products with hundreds/thousands
+     * of options.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isOptionsDndEnabled(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_OPTIONS_DND_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 }
