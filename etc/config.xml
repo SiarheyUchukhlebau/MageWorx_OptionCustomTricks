@@ -11,6 +11,7 @@
         <mageworx_apo>
             <option_tricks>
                 <enable_options_dnd>1</enable_options_dnd>
+                <enable_options_import>1</enable_options_import>
             </option_tricks>
         </mageworx_apo>
     </default>

@@ -69,6 +69,29 @@ class ProductDataProviderPlugin
             $options['arguments']['data']['config']['dndConfig'] = ['enabled' => false];
         }
 
+        // Optionally cut the "Import Options" workflow. Driven by the
+        // admin setting `mageworx_apo/option_tricks/enable_options_import`.
+        // Stock Magento_Catalog wires the options grid to
+        // product_custom_options_listing via `imports.insertData`, and that
+        // listing's data provider pre-loads source-product options with an
+        // N+1 query fanout — even when the admin never clicks "Import".
+        // Disabling cuts the wiring AND removes the button from the header,
+        // so the listing is never resolved and nothing on initial render
+        // pulls source-product data.
+        if (!$this->helper->isOptionsImportEnabled()) {
+            // Drop the wiring on the options grid that subscribes to the
+            // listing data provider.
+            unset($options['arguments']['data']['config']['imports']);
+
+            // Remove the "Import Options" button from the section header.
+            // name = product_form.product_form.custom_options.container_header.button_import
+            // (CONTAINER_HEADER_NAME = 'container_header' in Magento_Catalog
+            // CustomOptions modifier — NOT 'header'.)
+            if (isset($result[$groupCustomOptionsName]['children']['container_header']['children']['button_import'])) {
+                unset($result[$groupCustomOptionsName]['children']['container_header']['children']['button_import']);
+            }
+        }
+
         $record = &$options['children'][$optionContainerName];
 
         if (isset($record['children'])) {

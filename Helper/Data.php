@@ -39,6 +39,20 @@ class Data extends AbstractHelper
     public const XML_PATH_OPTIONS_DND_ENABLED =
         'mageworx_apo/option_tricks/enable_options_dnd';
 
+    /**
+     * XML path for the flag that enables the "Import Options" workflow on
+     * the custom-options grid in the admin product form. Default is enabled
+     * to preserve stock Magento_Catalog behaviour. When disabled, the
+     * "Import Options" button is removed from the header and the imports
+     * wiring between the options grid and the product_custom_options_listing
+     * data provider is unwired — i.e. the import flow is fully cut. This is
+     * the recommended setting on stores with very large catalogs/option
+     * sets, where loading the listing source data is itself an N+1 query
+     * fanout that admins seldom actually use.
+     */
+    public const XML_PATH_OPTIONS_IMPORT_ENABLED =
+        'mageworx_apo/option_tricks/enable_options_import';
+
     public const DEFAULT_OPTIONS_PAGE_SIZE = 20;
     public const DEFAULT_VALUES_PAGE_SIZE  = 20;
     public const CLEAR_LOCAL_STORAGE_FLAG  = 'mageworx_apo_clear_local_storage';
@@ -104,6 +118,25 @@ class Data extends AbstractHelper
     {
         return $this->scopeConfig->isSetFlag(
             self::XML_PATH_OPTIONS_DND_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Whether the admin custom-options grid should keep the "Import Options"
+     * workflow. Disabling cuts the wiring between the options grid and the
+     * product_custom_options_listing data provider, removes the import
+     * button from the header, and avoids loading the (often N+1-fanout)
+     * source listing data on initial render.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isOptionsImportEnabled(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_OPTIONS_IMPORT_ENABLED,
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
