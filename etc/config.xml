@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MageWorx. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mageworx_apo>
+            <option_tricks>
+                <collapse_option_and_values_by_default>1</collapse_option_and_values_by_default>
+                <options_page_size>10</options_page_size>
+                <values_page_size>10</values_page_size>
+                <enable_options_dnd>1</enable_options_dnd>
+                <enable_options_import>1</enable_options_import>
+            </option_tricks>
+        </mageworx_apo>
+    </default>
+</config>

@@ -38,6 +38,24 @@
                     <label>Number of Values per Page</label>
                     <comment>Set the number of option values displayed per page in the admin panel.</comment>
                 </field>
+                <field id="enable_options_dnd" translate="label comment" type="select" sortOrder="20"
+                       showInDefault="1">
+                    <label><![CDATA[Enable Drag-and-Drop Reorder for Custom Options]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[When enabled, you can reorder custom options and their values by dragging rows on the product edit page.
+                    On products with very large option sets (hundreds or thousands), initializing a drag-and-drop UI per row dominates the initial render time;
+                    set this to "No" in that case and use the Sort Order field instead. Default: Yes.]]>
+                    </comment>
+                </field>
+                <field id="enable_options_import" translate="label comment" type="select" sortOrder="25"
+                       showInDefault="1">
+                    <label><![CDATA[Enable "Import Options" Workflow]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[When enabled, the product edit page shows an "Import Options" button that opens a modal to copy custom options from another product.
+                    The wiring required for this feature pre-loads source data through a data provider that issues N+1 queries per source product on initial render.
+                    On stores with large catalogs and option sets, set this to "No" — the button is removed and the import wiring is dropped, eliminating the load cost. Default: Yes.]]>
+                    </comment>
+                </field>
             </group>
         </section>
     </system>
